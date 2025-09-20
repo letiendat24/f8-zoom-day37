@@ -16,10 +16,10 @@ function Modal({
   shouldCloseOnEsc = true,
   children,
 }) {
-  const [show, setShow] = useState(isOpen);       // trạng thái render trong DOM
-  const [animating, setAnimating] = useState(false); // trạng thái animation
+  const [show, setShow] = useState(isOpen);      
+  const [animating, setAnimating] = useState(false); 
 
-  // Khi thay đổi isOpen → xử lý animation
+
   useEffect(() => {
     if (isOpen) {
       setShow(true);
