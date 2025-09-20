@@ -1,0 +1,49 @@
+.modalDemo {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: 28px;
+  }
+
+  section {
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      color: #444;
+    }
+
+    button {
+      padding: 4px 8px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 6px;
+      background: #f05123;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #f05123;
+      }
+    }
+  }
+}
+
+/* Custom modal demo styles */
+.myOverlay {
+  background: rgba(255, 0, 0, 0.4) !important;
+}
+
+.myModal {
+  background: #222 !important;
+  color: #fff !important;
+  border-radius: 16px !important;
+  padding: 30px !important;
+}

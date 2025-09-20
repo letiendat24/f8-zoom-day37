@@ -1,0 +1,117 @@
+.button {
+    margin-right: 16px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px;
+    color: #333;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    display: block;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.wrapperDrop {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: #fff;
+    box-shadow: 0 -4px 32px #0003;
+    transition: all ease-in-out .3s;
+    border-radius: 10px;
+    padding-left: 0;
+    margin: 0;
+    overflow: hidden;
+    color: #1d2129;
+    min-width: 380px;
+    padding-bottom: 12px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px 16px;
+}
+
+.headerTitle {
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.seeAllText {
+    font-size: 1.4rem;
+    color: #f05123;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.imgCourse {
+    width: 120px;
+    min-height: 67px;
+    display: block;
+    border-radius: 8px;
+    background-color: #ebebeb;
+    line-height: 67px;
+}
+
+.item {
+    display: flex;
+    margin: 0 8px;
+    padding: 8px 12px;
+    transition: background-color .3s;
+    border-radius: 10px;
+}
+.item:hover {
+    background-color: #1618230d;
+}
+
+.courseInfo {
+    flex: 1;
+    margin-left: 12px;
+}
+
+.process::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    background-color: #f05123;
+    transition: width ease 1s;
+}
+.process {
+    position: relative;
+    height: 8px;
+    background-color:  #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+.courseTitle {
+    font-size: 1.4rem;
+    margin: 6px 0 0;
+    font-weight: 600;
+}
+.lastTime {
+    font-size: 1.2rem;
+    margin: 4px 0 0;
+    color: #666;
+}
+.startText {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #f05123;
+    margin-top: 6px;
+    cursor: pointer;
+    display: block;
+    background-color: transparent;
+}

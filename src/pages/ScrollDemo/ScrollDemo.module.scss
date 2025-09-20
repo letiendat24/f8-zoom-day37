@@ -1,0 +1,23 @@
+.wrapper {
+    position: relative;
+    height: 100vh;
+}
+
+.goTop {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 50px;
+    color: #fff;
+    background-color: #f05123;
+    border: #f05123 1px solid;
+    font-size: 2.4rem;
+    cursor: pointer;
+
+    &:hover {
+
+        background: #f36b45; // màu nhạt hơn
+        transform: scale(1.08); // phóng to nhẹ (8%)
+    }
+
+}
