@@ -22,6 +22,31 @@ const dirItems = [
         title: "Scroll",
         icon: <i className="fa-solid fa-arrow-up"></i>
     },
+    {
+        to: "/performance-demo",
+        title: "Performance",
+        icon: <i className="fa-solid fa-chart-simple"></i>
+    },
+    {
+        to: "/focus-demo",
+        title: "Focus",
+        icon: <i className="fa-solid fa-arrows-to-eye"></i>
+    },
+    {
+        to: "/hoc-demo",
+        title: "HOCDemo",
+        icon: <i className="fa-solid fa-gift"></i>
+    },
+    {
+        to: "/render-props-demo",
+        title: "Render Props",
+        icon: <i className="fa-solid fa-genderless"></i>
+    },
+    {
+        to: "/custom-hooks-demo",
+        title: "Hooks",
+        icon: <i className="fa-brands fa-intercom"></i>
+    },
 ]
 function Sidebar() {
     return (
@@ -30,11 +55,11 @@ function Sidebar() {
                 {dirItems.map((item, index) => (
                     <li key={index}>
                         <NavLink
-                        className={({isActive}) => (
-                            isActive ? `${styles.itemBtn} ${styles.active}` : `${styles.itemBtn}`
-                        )} 
-                        to={item.to}
-                         
+                            className={({ isActive }) => (
+                                isActive ? `${styles.itemBtn} ${styles.active}` : `${styles.itemBtn}`
+                            )}
+                            to={item.to}
+
                         >
                             <div className={styles.iconBtn}>{item.icon}</div>
                             <span>{item.title}</span>

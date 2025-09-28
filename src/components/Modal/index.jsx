@@ -1,96 +1,124 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import PropTypes from "prop-types";
+import clsx from "clsx";
+
 import styles from "./Modal.module.scss";
 
-function Modal({
-  isOpen,
-  onAfterOpen,
-  onAfterClose,
-  onRequestClose,
-  closeTimeoutMS = 0,
-  overlayClassName,
-  className,
-  bodyOpenClassName = "modal-open",
-  htmlOpenClassName = "modal-open",
-  shouldCloseOnOverlayClick = true,
-  shouldCloseOnEsc = true,
-  children,
-}) {
-  const [show, setShow] = useState(isOpen);      
-  const [animating, setAnimating] = useState(false); 
+const Modal = forwardRef(
+  (
+    {
+      isOpen: _isOpen = false,
+      onAfterOpen,
+      onAfterClose,
+      onRequestClose,
+      closeTimeoutMS = 300,
+      overlayClassName,
+      className,
+      bodyOpenClassName = "modal-open",
+      htmlOpenClassName = "modal-open",
+      shouldCloseOnOverlayClick = true,
+      shouldCloseOnEsc = true,
+      children,
+    },
+    ref
+  ) => {
+    const [isOpen, setIsOpen] = useState(_isOpen);
 
+    useEffect(() => {
+      setIsOpen(_isOpen);
+    }, [_isOpen]);
 
-  useEffect(() => {
-    if (isOpen) {
-      setShow(true);
-      setTimeout(() => {
-        onAfterOpen?.();
-      }, closeTimeoutMS);
-    } else if (show) {
-      setAnimating(true);
-      setTimeout(() => {
-        setAnimating(false);
-        setShow(false);
+    useImperativeHandle(ref, () => ({
+      open() {
+        setIsOpen(true);
+      },
+      close() {
+        setIsOpen(false);
+      },
+      toggle() {
+        setIsOpen((prev) => !prev);
+      },
+    }));
+
+    // Đóng modal
+    const handleRequestClose = () => {
+      if (closeTimeoutMS > 0) {
+        setTimeout(() => {
+          onRequestClose?.();
+          setIsOpen(false);
+          onAfterClose?.();
+        }, closeTimeoutMS);
+      } else {
+        onRequestClose?.();
+        setIsOpen(false);
         onAfterClose?.();
-      }, closeTimeoutMS);
-    }
-  }, [isOpen]);
-
-  // Esc key listener
-  useEffect(() => {
-    if (!isOpen || !shouldCloseOnEsc) return;
-    const handleKey = (e) => {
-      if (e.code === "Escape") {
-        onRequestClose?.(e);
       }
     };
-    document.addEventListener("keyup", handleKey);
-    return () => document.removeEventListener("keyup", handleKey);
-  }, [isOpen, shouldCloseOnEsc, onRequestClose]);
 
-  // Thêm className cho body + html khi modal mở
-  useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add(bodyOpenClassName);
-      document.documentElement.classList.add(htmlOpenClassName);
-    }
-    return () => {
-      document.body.classList.remove(bodyOpenClassName);
-      document.documentElement.classList.remove(htmlOpenClassName);
-    };
-  }, [isOpen, bodyOpenClassName, htmlOpenClassName]);
+    // Trigger onAfterOpen khi modal mở
+    useEffect(() => {
+      if (isOpen) {
+        onAfterOpen?.();
+      }
+    }, [isOpen, onAfterOpen]);
 
-  if (!show) return null;
+    // ESC để đóng
+    useEffect(() => {
+      if (!shouldCloseOnEsc) return;
 
-  return (
-    <div
-      className={`${styles.modal} ${animating ? styles.closing : ""}`}
-    >
-      {/* Overlay */}
-      <div
-        className={`${styles.overlay} ${overlayClassName || ""}`}
-        onClick={() => {
-          if (shouldCloseOnOverlayClick) {
-            onRequestClose?.();
-          }
-        }}
-      />
-      {/* Content */}
-      <div className={`${styles.content} ${className || ""}`}>
-        <button
-          className={styles.closeBtn}
-          onClick={() => onRequestClose?.()}
-        >
-          &times;
-        </button>
-        <div className={styles.inner}>{children}</div>
+      const handle = (e) => {
+        if (e.code === "Escape") {
+          handleRequestClose();
+        }
+      };
+
+      if (isOpen) {
+        document.addEventListener("keyup", handle);
+      }
+
+      return () => {
+        document.removeEventListener("keyup", handle);
+      };
+    }, [isOpen, shouldCloseOnEsc]);
+
+    // Thêm class vào body & html khi mở modal
+    useEffect(() => {
+      if (isOpen) {
+        if (bodyOpenClassName) document.body.classList.add(bodyOpenClassName);
+        if (htmlOpenClassName) document.documentElement.classList.add(htmlOpenClassName);
+      }
+
+      return () => {
+        if (bodyOpenClassName) document.body.classList.remove(bodyOpenClassName);
+        if (htmlOpenClassName) document.documentElement.classList.remove(htmlOpenClassName);
+      };
+    }, [isOpen, bodyOpenClassName, htmlOpenClassName]);
+
+    if (!isOpen) return null;
+
+    return (
+      <div className={styles.modal}>
+        <div className={clsx(styles.content, className)}>
+          <button className={styles.closeBtn} onClick={handleRequestClose}>
+            &times;
+          </button>
+          <div className={styles.body}>{children}</div>
+        </div>
+        <div
+          className={clsx(styles.overlay, overlayClassName)}
+          onClick={() => {
+            if (shouldCloseOnOverlayClick) handleRequestClose();
+          }}
+        />
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
+
+Modal.displayName = "Modal";
 
 Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool,
   onAfterOpen: PropTypes.func,
   onAfterClose: PropTypes.func,
   onRequestClose: PropTypes.func,

@@ -10,8 +10,13 @@
     width: 96px;
     padding: 0 8px;
     height: calc(100vh - 66px);
+    overflow-y: auto;
+    scrollbar-width: none;   /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
 }
-
+._wrapper {
+    display: none;  /* Chrome, Safari */
+}
 .lists {
     position: sticky;
     top: 80px;
